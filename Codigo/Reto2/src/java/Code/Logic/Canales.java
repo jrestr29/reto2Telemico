@@ -5,7 +5,7 @@
  */
 package Code.Logic;
 
-import DB.DB;
+import DB.DriverJDBC;
 
 /**
  *
@@ -15,7 +15,7 @@ public class Canales {
     
     
     Canales(){
-        DB db = new DB();
+        DriverJDBC db = new DriverJDBC();
     }
     
     public void getCanales(){

@@ -6,7 +6,7 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>Sistema de Canales</title>
+        <title>Sistemas de Canales</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
@@ -14,6 +14,55 @@ and open the template in the editor.
         <script src="js/jquery-1.11.2.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/npm.js"></script>
+
+        <script language="JavaScript" type="text/javascript">
+            var xMLHttpRequest = new XMLHttpRequest();
+            $(document).ready(function () {
+                //Cuando se carga la pagina lo primero que vamos a cargar es el listado de canales
+                cargarCanales();
+
+                function cargarCanales() {
+                    var request = $.ajax({
+                        url: "/Reto2/canales/listar",
+                        method: "GET",
+                        dataType: "JSON"
+                    });
+                    
+                    request.done(function(data){
+                        console.log(data);
+                    });
+                    
+                    request.fail(function(){
+                        console.log("Ocurrio un error");
+                    });
+                }
+                
+                function verCanal(id) {
+                    var request = $.ajax({
+                        url: "/Reto2/canales/listar",
+                        method: "GET",
+                        dataType: "JSON"
+                    });
+                    
+                    request.done(function(data){
+                        console.log(data);
+                    });
+                    
+                    request.fail(function(){
+                        console.log("Ocurrio un error");
+                    });
+                }
+                
+                function suscribirCanal(id){
+                    
+                }
+                
+                function crearCanal(){
+                    
+                }
+            });
+
+        </script>
     </head>
     <body>
         <nav class="navbar navbar-default">
@@ -29,10 +78,10 @@ and open the template in the editor.
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="#">Ver Canal</a></li>
-                        <li><a href="#">Crear Canal</a></li>
+                        <li class="active"><a id="ver_canal_link" href="#">Ver Canal</a></li>
+                        <li><a id="crear_canal_link" href="#">Crear Canal</a></li>
                     </ul>
-                    
+
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
         </nav>

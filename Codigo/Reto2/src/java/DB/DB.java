@@ -1,3 +1,5 @@
+package DB;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -33,7 +35,7 @@ public class DB {
             Class.forName("com.mysql.jdbc.Driver");
             db = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + database, username, password);
             db.createStatement();
-
+            System.out.println("DB Connected!");
         } catch (Exception e) {
             System.out.println("DB Error: " + e.getMessage());
         }

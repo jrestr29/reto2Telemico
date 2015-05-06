@@ -11,6 +11,7 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
         <script src="js/jquery-1.11.2.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/npm.js"></script>
@@ -30,6 +31,14 @@ and open the template in the editor.
                     
                     request.done(function(data){
                         console.log(data);
+                        $("h3[id='page_title']").empty().html("Listado de canales");
+                        var html = '';
+                        for(i=0; i<data.length; i++){
+                            html += '<div class="content_container">';
+                            html +='<a data-id="'+data[i].id+'" href="#">'+data[i].nombre+'</a>';
+                            html += '</div>';
+                        }
+                        $("section[id='content']").empty().html(html);
                     });
                     
                     request.fail(function(){
@@ -85,5 +94,12 @@ and open the template in the editor.
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
         </nav>
+        
+        <section class="content">
+            <section class="container">
+                <h3 id="page_title"></h3>
+                <section id="content"></sectiont>
+            </section>
+        </section>
     </body>
 </html>

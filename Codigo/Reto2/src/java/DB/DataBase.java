@@ -1,11 +1,10 @@
-
 package DB;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
-
 
 public class DataBase {
 
@@ -17,29 +16,30 @@ public class DataBase {
     private Statement stmt;
     private ResultSet rs;
 
-    public DataBase() {
+    public DataBase() throws ClassNotFoundException {
         setUsername("root");
         setPassword("");
         setHost("localhost");
         setDatabase("reto2canales");
-        
+
         try {
             Class.forName("com.mysql.jdbc.Driver");
             db = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + database, username, password);
-            db.createStatement();
+            stmt = db.createStatement();
+            System.out.println("DB Started");
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             System.out.println("DB Error: " + e.getMessage());
         }
     }
 
     public ResultSet execQuery(String sql) {
-        try{
-            rs  = stmt.executeQuery(sql);
-        } catch (Exception e) {
+        try {
+            rs = stmt.executeQuery(sql);
+        } catch (SQLException e) {
             System.out.println("DB Query Error: " + e.getMessage());
         }
-        
+
         return rs;
     }
 

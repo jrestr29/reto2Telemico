@@ -9,27 +9,43 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.json.simple.JSONObject;
 import DB.DataBase;
-
+import org.json.simple.JSONArray;
 
 public class Canales {
 
     DataBase db;
 
-    public Canales() {
+    public Canales() throws ClassNotFoundException {
         db = new DataBase();
     }
 
-    public JSONObject getCanales() throws SQLException {
+    public JSONArray getCanales() throws SQLException {
         String sql = "SELECT id, nombre FROM canal";
         ResultSet rtst = db.execQuery(sql);
 
-        JSONObject json = new JSONObject();
+        JSONArray jsonArr = new JSONArray();
+        /*JSONObject json = new JSONObject();
+s
+        JSONObject jsonObj = new JSONObject();
+
+        jsonObj.put("nombre", "yisus");
+        jsonObj.put("id", 1);
+
+        JSONObject jsonObj2 = new JSONObject();
+
+        jsonObj2.put("nombre", "craist");
+        jsonObj2.put("id", 2);
+        jsonArr.add(jsonObj);
+        jsonArr.add(jsonObj2);*/
+
         while (rtst.next()) {
-            json.put("id", rtst.getInt("id"));
-            json.put("nombre", rtst.getString("nombre"));
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("id", rtst.getInt("id"));
+            jsonObj.put("nombre", rtst.getString("nombre"));
+            jsonArr.add(jsonObj);
         }
 
-        return json;
+        return jsonArr;
     }
 
     public void setCanal() {

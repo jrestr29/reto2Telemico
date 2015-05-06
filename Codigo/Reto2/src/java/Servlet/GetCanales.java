@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Code;
+package Servlet;
 
 import Logic.Canales;
 import java.io.IOException;
@@ -25,9 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 public class GetCanales extends HttpServlet {
     Canales canales;
     
-    GetCanales(){
-        canales = new Canales();
-    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,11 +35,12 @@ public class GetCanales extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, SQLException {
+            throws ServletException, IOException, SQLException, ClassNotFoundException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+             canales = new Canales();
             /* TODO output your page here. You may use following sample code. */
-            out.println(canales.getCanales());
+            out.println(canales.getCanales().toJSONString());
             /*.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -71,6 +69,8 @@ public class GetCanales extends HttpServlet {
             processRequest(request, response);
         } catch (SQLException ex) {
             Logger.getLogger(GetCanales.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(GetCanales.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -88,6 +88,8 @@ public class GetCanales extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
+            Logger.getLogger(GetCanales.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
             Logger.getLogger(GetCanales.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

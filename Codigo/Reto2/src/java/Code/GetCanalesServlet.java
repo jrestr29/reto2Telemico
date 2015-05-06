@@ -6,7 +6,7 @@ package Code;
  * and open the template in the editor.
  */
 
-import Code.Logic.Canales;
+import Logic.Canales;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;

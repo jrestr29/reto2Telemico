@@ -1,21 +1,11 @@
-package DB;
-
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-/**
- *
- * @author sebastian
- */
-public class DB {
+
+public class DataBase {
 
     private Connection db;
     private String username;
@@ -25,7 +15,7 @@ public class DB {
     private Statement stmt;
     private ResultSet rs;
 
-    public DB() {
+    public DataBase() {
         setUsername("root");
         setPassword("");
         setHost("localhost");
@@ -35,7 +25,7 @@ public class DB {
             Class.forName("com.mysql.jdbc.Driver");
             db = DriverManager.getConnection("jdbc:mysql://" + host + ":3306/" + database, username, password);
             db.createStatement();
-            System.out.println("DB Connected!");
+
         } catch (Exception e) {
             System.out.println("DB Error: " + e.getMessage());
         }

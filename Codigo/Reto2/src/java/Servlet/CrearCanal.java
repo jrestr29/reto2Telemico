@@ -15,6 +15,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.json.simple.JSONArray;
 
 /**
  *
@@ -39,22 +40,14 @@ public class CrearCanal extends HttpServlet {
         response.setStatus(200);
         String nombre_canal = request.getParameter("nombre_canal");
         canales = new Canales();
-        crearCanal(nombre_canal);
         
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
+            out.println(canales.setCanal(nombre_canal));
         }
     }
     
-    public boolean crearCanal(String nombre_canal){
-        try{
-            canales.setCanal(nombre_canal);        
-        } catch(Exception e){
-            return false;
-        }
-        return true;
-    }
+    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

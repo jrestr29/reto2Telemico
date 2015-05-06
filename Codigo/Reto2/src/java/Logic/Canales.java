@@ -35,10 +35,15 @@ public class Canales {
         return jsonArr;
     }
 
-    public void setCanal(String nombre_canal) {
+    public JSONArray setCanal(String nombre_canal) {
 
         String sql = "INSERT INTO canal (nombre) VALUES ('" + nombre_canal + "')";
         db.execUpdate(sql);
         
+        JSONArray jsonArr = new JSONArray();
+        JSONObject jsonObj = new JSONObject();
+        jsonObj.put("status", true);
+        
+        return jsonArr;
     }
 }

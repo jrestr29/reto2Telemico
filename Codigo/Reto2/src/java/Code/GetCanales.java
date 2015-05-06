@@ -1,10 +1,9 @@
-package Code;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package Code;
 
 import Logic.Canales;
 import java.io.IOException;
@@ -22,15 +21,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author sebastian
  */
-@WebServlet(urlPatterns = {"/canales/listasssr"})
-public class GetCanalesServlet extends HttpServlet {
-
+@WebServlet(name = "GetCanales", urlPatterns = {"/listar"})
+public class GetCanales extends HttpServlet {
     Canales canales;
     
-    GetCanalesServlet(){
-        
+    GetCanales(){
+        canales = new Canales();
     }
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,21 +39,20 @@ public class GetCanalesServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException {
-            canales = new Canales();
-            response.setContentType("text/html;charset=UTF-8");
-            response.getWriter().write(generateJSON());
-
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            out.print(canales.getCanales());
             /* TODO output your page here. You may use following sample code. */
-            
+            out.println(canales.getCanales());
+            /*.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet GetCanales</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet GetCanales at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");*/
         }
-    }
-    
-    private String generateJSON(){
-        StringBuffer json = null;
-        
-        return json.toString();
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -74,7 +70,7 @@ public class GetCanalesServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(GetCanalesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetCanales.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -92,7 +88,7 @@ public class GetCanalesServlet extends HttpServlet {
         try {
             processRequest(request, response);
         } catch (SQLException ex) {
-            Logger.getLogger(GetCanalesServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(GetCanales.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

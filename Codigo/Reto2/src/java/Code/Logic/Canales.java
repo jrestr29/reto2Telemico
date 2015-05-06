@@ -6,23 +6,32 @@
 package Code.Logic;
 
 import DB.DB;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import org.json.simple.JSONObject;
 
-/**
- *
- * @author sebastian
- */
 public class Canales {
-    
-    
-    Canales(){
-        DB db = new DB();
+
+    DB db;
+
+    public Canales() {
+        db = new DB();
     }
-    
-    public void getCanales(){
+
+    public JSONObject getCanales() throws SQLException {
+        String sql = "SELECT id, nombre FROM canal";
+        ResultSet rtst = db.execQuery(sql);
         
+        JSONObject json = new JSONObject();
+        while(rtst.next()){
+            json.put("id", rtst.getInt("id"));
+            json.put("nombre", rtst.getString("nombre"));
+        }
+        
+        return json;
     }
-    
-    public void setCanal(){
-        
+
+    public void setCanal() {
+
     }
 }

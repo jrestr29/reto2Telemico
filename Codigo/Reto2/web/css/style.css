@@ -16,3 +16,33 @@
     text-transform: capitalize;
     padding-top: 10px;
 }
+
+.form-crear{
+    width: 100%;
+    display: block;
+    clear: both;
+}
+
+.form-crear input{
+    width: 80%;
+}
+
+.form-crear button{
+    width: 15%;
+}
+
+.form-crear input, button{
+    height: 40px;
+}
+
+.form-crear .form-field{
+    display: inline-block;
+}
+
+.notice_container{
+    display: block;
+    clear:both;
+    margin: 0 auto;
+    margin-top:3%;
+    width: 70%;
+}

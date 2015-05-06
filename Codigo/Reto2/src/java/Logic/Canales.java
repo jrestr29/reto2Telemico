@@ -24,19 +24,6 @@ public class Canales {
         ResultSet rtst = db.execQuery(sql);
 
         JSONArray jsonArr = new JSONArray();
-        /*JSONObject json = new JSONObject();
-s
-        JSONObject jsonObj = new JSONObject();
-
-        jsonObj.put("nombre", "yisus");
-        jsonObj.put("id", 1);
-
-        JSONObject jsonObj2 = new JSONObject();
-
-        jsonObj2.put("nombre", "craist");
-        jsonObj2.put("id", 2);
-        jsonArr.add(jsonObj);
-        jsonArr.add(jsonObj2);*/
 
         while (rtst.next()) {
             JSONObject jsonObj = new JSONObject();
@@ -48,7 +35,10 @@ s
         return jsonArr;
     }
 
-    public void setCanal() {
+    public void setCanal(String nombre_canal) {
 
+        String sql = "INSERT INTO canal (nombre) VALUES ('" + nombre_canal + "')";
+        db.execUpdate(sql);
+        
     }
 }

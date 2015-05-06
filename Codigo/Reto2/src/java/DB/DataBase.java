@@ -43,6 +43,14 @@ public class DataBase {
         return rs;
     }
 
+    public void execUpdate(String sql) {
+        try {
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            System.out.println("DB Query Error: " + e.getMessage());
+        }
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }

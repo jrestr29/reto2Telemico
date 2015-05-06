@@ -21,53 +21,94 @@ and open the template in the editor.
             $(document).ready(function () {
                 //Cuando se carga la pagina lo primero que vamos a cargar es el listado de canales
                 cargarCanales();
+                
+
+                $("a[id='crear_canal_link']").click(function (event) {
+                    event.preventDefault();
+                    $.get("crear.html", function (data) {
+                        $("h3[id='page_title']").empty().html("Crear canal");
+                        $("section[id='content']").empty().html(data);
+
+                        $("form[id='crear_canal']").submit(function (event) {
+                            event.preventDefault();
+                            console.log("submit");
+                            var nombre_canal = $(this).find('input').val();
+                            var request = $.ajax({
+                                url: "crear",
+                                method: "POST",
+                                dataType: "JSON",
+                                data: {nombre_canal: nombre_canal}
+                            });
+
+                            request.done(function () {
+                                console.log(data);
+                                var html = '';
+                                html += '<div class="alert alert-success notice_container" role="alert">';
+                                html += 'Se ha creado exitosamente el canal <b>' + nombre_canal + '</b>';
+                                html += '</div>';
+                                $("section[id='content']").append(html);
+                            });
+
+                            request.fail(function () {
+                                var html = '';
+                                html += '<div class="alert alert-danger notice_container" role="alert">';
+                                html += 'Ha ocurrido un error mientras creaba el canal <b>' + nombre_canal + '</b>';
+                                html += '</div>';
+                                $("section[id='content']").append(html);
+                            });
+                        });
+                    });
+                });
+
+
 
                 function cargarCanales() {
+                    
                     var request = $.ajax({
                         url: "listar",
                         method: "GET",
                         dataType: "JSON"
                     });
-                    
-                    request.done(function(data){
+
+                    request.done(function (data) {
                         console.log(data);
                         $("h3[id='page_title']").empty().html("Listado de canales");
                         var html = '';
-                        for(i=0; i<data.length; i++){
+                        for (i = 0; i < data.length; i++) {
                             html += '<div class="content_container">';
-                            html +='<a data-id="'+data[i].id+'" href="#">'+data[i].nombre+'</a>';
+                            html += '<a data-id="' + data[i].id + '" href="#">' + data[i].nombre + '</a>';
                             html += '</div>';
                         }
                         $("section[id='content']").empty().html(html);
                     });
-                    
-                    request.fail(function(){
+
+                    request.fail(function () {
                         console.log("Ocurrio un error");
                     });
                 }
-                
+
                 function verCanal(id) {
                     var request = $.ajax({
                         url: "/Reto2/canales/listar",
                         method: "GET",
                         dataType: "JSON"
                     });
-                    
-                    request.done(function(data){
+
+                    request.done(function (data) {
                         console.log(data);
                     });
-                    
-                    request.fail(function(){
+
+                    request.fail(function () {
                         console.log("Ocurrio un error");
                     });
                 }
-                
-                function suscribirCanal(id){
-                    
+
+                function suscribirCanal(id) {
+
                 }
-                
-                function crearCanal(){
-                    
+
+                function crearCanal() {
+
                 }
             });
 
@@ -87,19 +128,19 @@ and open the template in the editor.
                 </div>
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a id="ver_canal_link" href="#">Ver Canal</a></li>
+                        <li class="active"><a id="ver_canal_link" href="/">Ver Canales</a></li>
                         <li><a id="crear_canal_link" href="#">Crear Canal</a></li>
                     </ul>
 
                 </div><!--/.nav-collapse -->
             </div><!--/.container-fluid -->
         </nav>
-        
+
         <section class="content">
             <section class="container">
                 <h3 id="page_title"></h3>
                 <section id="content"></sectiont>
+                </section>
             </section>
-        </section>
     </body>
 </html>

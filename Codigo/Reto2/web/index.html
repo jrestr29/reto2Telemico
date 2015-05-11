@@ -21,11 +21,11 @@ and open the template in the editor.
             $(document).ready(function () {
                 //Cuando se carga la pagina lo primero que vamos a cargar es el listado de canales
                 cargarCanales();
-                
 
                 $("a[id='crear_canal_link']").click(function (event) {
                     event.preventDefault();
                     $.get("crear.html", function (data) {
+                        ocultarMessageSender();
                         $("h3[id='page_title']").empty().html("Crear canal");
                         $("section[id='content']").empty().html(data);
 
@@ -61,9 +61,8 @@ and open the template in the editor.
                 });
 
 
-
                 function cargarCanales() {
-                    
+
                     var request = $.ajax({
                         url: "listar",
                         method: "GET",
@@ -76,36 +75,89 @@ and open the template in the editor.
                         var html = '';
                         for (i = 0; i < data.length; i++) {
                             html += '<div class="content_container">';
-                            html += '<a data-id="' + data[i].id + '" href="#">' + data[i].nombre + '</a>';
+                            html += '<a id="canal_link" data-id="' + data[i].id + '" href="#">' + data[i].nombre + '</a>';
                             html += '</div>';
                         }
                         $("section[id='content']").empty().html(html);
+
+                        $("a[id='canal_link']").click(function (event) {
+                            event.preventDefault();
+                            var id = $(this).attr('data-id');
+                            console.log("Cargando canal " + id);
+
+                            var request = $.ajax({
+                                url: "cargar_canal",
+                                method: "POST",
+                                dataType: "JSON",
+                                data: {id_canal: id}
+                            });
+
+                            request.done(function (data) {
+                                console.log(data);
+
+                                $("h3[id='page_title']").empty().html("Viendo canal " + data[0].canal);
+                                var html = '';
+
+                                if ((data[0].messages.length == "undefined") || (data[0].messages.length == 0)) {
+                                    html = 'No se encontraron mensajes';
+                                } else {
+                                    for (i = 0; i < data[0].messages.length; i++) {
+                                        html += '<div class="content_container">';
+                                        html += '<p>' + data.messages[i].msg + '</p>';
+                                        html += '</div>';
+                                    }
+
+                                }
+                                cargarMessageSender();
+                                cargarValorCanal(data[0].id);
+                                $(document).find("section[id='content']").empty().html(html);
+                            });
+
+
+                        });
                     });
 
                     request.fail(function () {
                         console.log("Ocurrio un error");
                     });
                 }
+                
+                
+                function cargarMessageSender() {
+                    $.get("footer.html", function (data) {
+                        $("footer").empty().html(data);
+                        $("form[name='message_sender']").submit(function(event){
+                            event.preventDefault();
+                            console.log('Enviando mensaje');
+                            var mensaje = $("input[name='msg']").val();
+                            var canal_id = $("input[name='channel']").val();
+                            console.log("Canal: "+canal_id);
+                            console.log("MSG: "+mensaje);
 
-                function verCanal(id) {
-                    var request = $.ajax({
-                        url: "/Reto2/canales/listar",
-                        method: "GET",
-                        dataType: "JSON"
-                    });
+                            var request = $.ajax({
+                                url: "enviar_mensaje",
+                                method: "POST",
+                                dataType: "JSON",
+                                data: {id_canal: id, mensaje : mensaje}
+                            });
+                            
+                            request.done(function(){
+                                cargarCanales();
+                            });
 
-                    request.done(function (data) {
-                        console.log(data);
-                    });
-
-                    request.fail(function () {
-                        console.log("Ocurrio un error");
+                            
+                        });
                     });
                 }
-
-                function suscribirCanal(id) {
-
+                
+                function cargarValorCanal(id){
+                    $(document).find("input[name='channel']").val(id);
                 }
+                
+                function ocultarMessageSender(){
+                    $('footer').find('div').empty();
+                }
+
 
                 function crearCanal() {
 
@@ -115,32 +167,41 @@ and open the template in the editor.
         </script>
     </head>
     <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="#">Canales Mensajeria</a>
-                </div>
-                <div id="navbar" class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li class="active"><a id="ver_canal_link" href="/Reto2">Ver Canales</a></li>
-                        <li><a id="crear_canal_link" href="#">Crear Canal</a></li>
-                    </ul>
+        <div class="main_container">
+            <nav class="navbar navbar-default">
+                <div class="container-fluid">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#">Canales Mensajeria</a>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav">
+                            <li><a id="ver_canal_link" href="/Reto2">Ver Canales</a></li>
+                            <li><a id="crear_canal_link" href="#">Crear Canal</a></li>
+                        </ul>
 
-                </div><!--/.nav-collapse -->
-            </div><!--/.container-fluid -->
-        </nav>
-
-        <section class="content">
-            <section class="container">
-                <h3 id="page_title"></h3>
-                <section id="content"></sectiont>
+                    </div><!--/.nav-collapse -->
+                </div><!--/.container-fluid -->
+            </nav>
+            <section class="content">
+                <section class="container">
+                    <h3 id="page_title"></h3>
+                    <section id="content"></sectiont>
+                    </section>
                 </section>
             </section>
+            <footer></footer>
+
+        </div>
+
+
+
+
+        
     </body>
 </html>

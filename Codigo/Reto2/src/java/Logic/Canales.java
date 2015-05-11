@@ -39,11 +39,24 @@ public class Canales {
 
         String sql = "INSERT INTO canal (nombre) VALUES ('" + nombre_canal + "')";
         db.execUpdate(sql);
-        
+
         JSONArray jsonArr = new JSONArray();
         JSONObject jsonObj = new JSONObject();
         jsonObj.put("status", true);
-        
+
         return jsonArr;
+    }
+
+    public String getNombre(int canal_id) throws SQLException {
+        String sql = "SELECT nombre FROM canal WHERE id = " + canal_id;
+        ResultSet rtst = db.execQuery(sql);
+
+        String nombre = null;
+
+        while (rtst.next()) {
+            nombre = rtst.getString("nombre");
+        }
+
+        return nombre;
     }
 }
